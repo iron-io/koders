@@ -24,7 +24,7 @@ namespace :workers do
     client = IronWorkerNG::Client.new(@config['iron'])
     # Upload the code
     code = IronWorkerNG::Code::Base.new('koder_slave')
-    client.codes.create(code)
+    client.codes.create(code, :max_concurrency=>50)
   end
   task :upload do
     Rake::Task["workers:upload_master"].invoke
