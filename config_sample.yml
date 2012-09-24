@@ -1,5 +1,12 @@
+iron:
+  token:
+  project_id:
+
 github:
   username:
   password:
-  token:
+  token: Get this by running create_github_token
+
+# name to search on when testing
+name: "John Doe"
 
