@@ -1,5 +1,7 @@
 runtime "ruby"
 
 gem 'rest'
+gem 'uber_config'
+gem 'iron_cache'
 
 exec 'koder_slave.rb'
