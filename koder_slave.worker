@@ -1,0 +1,4 @@
+runtime "ruby"
+exec "koder_slave.rb"
+
+gem "json"
