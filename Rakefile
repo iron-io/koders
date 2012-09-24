@@ -43,6 +43,7 @@ task :cleanup do
   cache = ic.cache("koders")
   #cache.delete("user_list") rescue puts "user_list not found, continuing"
   # todo: we don't dynamically create this list anywhere, but we should so this isn't hardcoded
+  # Or scrape list from here: https://github.com/languages
   langs = %w(Ruby
       Clojure
       JavaScript
