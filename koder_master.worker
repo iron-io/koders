@@ -1,0 +1,7 @@
+runtime "ruby"
+exec "koder_master.rb"
+
+gem "rest"
+gem "iron_cache"
+gem "iron_worker_ng"
+gem "json"
