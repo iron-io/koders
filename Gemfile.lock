@@ -1,0 +1,29 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    iron_cache (1.2.1)
+      iron_core (>= 0.4.2)
+    iron_core (0.4.2)
+      rest (>= 2.0.2)
+    iron_worker_ng (0.10.4)
+      bundler (>= 1.0.0)
+      iron_core (>= 0.4.2)
+      zip
+    mime-types (1.19)
+    net-http-persistent (2.7)
+    rest (2.0.3)
+      net-http-persistent
+      rest-client (>= 0.3.0)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    uber_config (0.0.6)
+    zip (2.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  iron_cache
+  iron_worker_ng
+  rest
+  uber_config
