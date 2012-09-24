@@ -20,3 +20,5 @@ run.rb
 .yardoc
 _yardoc
 doc/
+
+.idea/
