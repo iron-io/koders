@@ -20,7 +20,7 @@ end
 
 @stackoverflow_id = @config[:user_id]
 
-@ic = IronCache::Client.new
+@ic = IronCache::Client.new(@config[:iron])
 @cache = @ic.cache("koders")
 
 headers = {'Authorization' => "token #{@config[:github][:token]}"}
@@ -76,9 +76,9 @@ end
 puts "FINAL COUNTS:"
 p language_counts
 
-user_in_cache = @cache.get(@stackoverflow_id)
+user_in_cache = @cache.get(@stackoverflow_id.to_s)
 p user_in_cache
-user_in_cache = JSON.parse(user_in_cache)
-user_in_cache["languages"] = language_counts
-@cache.put(@stackoverflow_id, user_in_cache)
+new_value = JSON.parse(user_in_cache.value)
+new_value["languages"] = language_counts
+@cache.put(@stackoverflow_id.to_s, user_in_cache.to_json)
 
