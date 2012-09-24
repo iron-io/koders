@@ -1,0 +1,16 @@
+<h1>Welcome</h1>
+
+<% if @user_list %>
+    <% @user_list.each do |user| %>
+        <div>
+          <a href="<%= user.link %>"><img src="<%= user.profile_image %>"/></a>
+          <a href="<%= user.link %>"><%= user.display_name %></a><br/>
+          Reputation: <%= user.reputation %><br/>
+          Languages:
+          <% user.languages.each_pair do |k,v| %>
+            <%= k %>: <%= '%.1f' % (100.0 * v / user.total_bytes) %>%
+          <% end %>
+        </div>
+    <% end %>
+<% end %>
+

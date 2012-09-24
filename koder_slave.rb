@@ -80,5 +80,5 @@ user_in_cache = @cache.get(@stackoverflow_id.to_s)
 p user_in_cache
 new_value = JSON.parse(user_in_cache.value)
 new_value["languages"] = language_counts
-@cache.put(@stackoverflow_id.to_s, user_in_cache.to_json)
+@cache.put(@stackoverflow_id.to_s, new_value.to_json)
 

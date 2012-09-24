@@ -1,11 +1,22 @@
 require 'iron_worker_ng'
 require 'iron_cache'
 require 'rest'
-require 'json'
+require 'uber_config'
 
-rest = Rest::Client.new(:gem => :typhoeus)
-cache = IronCache::Client.new(:token => params[:token], :project_id => params[:project_id])
-worker = IronWorkerNG::Client.new(:token => params[:token], :project_id => params[:project_id])
+begin
+  @config = UberConfig.load
+  UberConfig.symbolize_keys!(@config)
+rescue => ex
+  puts "Using params for config"
+  @config = params
+end
+
+#puts "config:"
+#p @config
+
+rest = Rest::Client.new
+cache = IronCache::Client.new(@config[:iron])
+worker = IronWorkerNG::Client.new(@config[:iron])
 
 koders = cache.cache("koders")
 user_ids = []
@@ -24,14 +35,12 @@ pages.downto(1) do |p|
     user_ids << i["user_id"]
 
     worker.tasks.create("koder_slave", {:user_id => i["user_id"],
-                                        :name => i["display_name"],
-                                        :iron => {:token => params[:token], :project_id => params[:project_id]},
-                                        :github => {token: "c9277d644f4127cdce954ec136d820675a1934a0"}})
+                                        :name => i["display_name"]}.merge(@config))
   end
 
   puts "Results --> #{results}"
 end
 
-koders.put("user_list_array", user_ids.to_json)
+koders.put("user_list", user_ids.to_json)
 
 puts "Processed #{user_ids.size} users"

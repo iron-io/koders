@@ -3,9 +3,7 @@ iron:
   project_id:
 
 github:
-  username:
-  password:
-  token: Get this by running create_github_token
+  token: Get this by running create_github_token.rb
 
 # name to search on when testing
 name: "John Doe"
