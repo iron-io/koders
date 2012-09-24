@@ -18,13 +18,14 @@ pages.downto(1) do |p|
   results = JSON.parse(res.body)
 
   results["items"].each do |i|
-    puts "Found user #{i["display_name"]}"
+    #puts "Found user #{i["display_name"]}"
     koders.put(i["user_id"].to_s, i.to_s)
     user_ids << i["user_id"]
 
-    worker.tasks.create("koder_slave", :user_id => i["user_id"])
+    worker.tasks.create("koder_slave", {:user_id => i["user_id"], :display_name => i["display_name"]})
   end
-end
 
+  puts "Results --> #{results}"
+end
 
 puts "Processed #{user_ids.size} users"
