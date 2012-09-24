@@ -41,7 +41,7 @@ end
 task :cleanup do
   ic = IronCache::Client.new(@config['iron'])
   cache = ic.cache("koders")
-  cache.delete("user_list") rescue puts "user_list not found, continuing"
+  #cache.delete("user_list") rescue puts "user_list not found, continuing"
   # todo: we don't dynamically create this list anywhere, but we should so this isn't hardcoded
   langs = %w(Ruby
       Clojure
@@ -54,7 +54,13 @@ task :cleanup do
       Perl
       Io
       PHP
-      C#)
-  langs.each { |l| cache.delete(l) rescue puts "#{l} not found, continuing" }
+      C#
+      Shell
+      Perl
+      Assembly)
+  langs << "OpenEdge ABL"
+  langs << "Emacs Lisp"
+  p langs
+  #langs.each { |l| cache.delete(l) rescue puts "#{l} not found, continuing" }
 
 end
