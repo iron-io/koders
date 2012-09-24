@@ -1,10 +1,6 @@
 <h1>Welcome to Koders</h1><br />
 
-<% if @total_users == 0 %>
-
-  No data detected. Please run data processing workers.
-
-<% else %>
+<% if @user_list %>
 
   <h2>Language Breakdown for Top <%= @total_users %> Stackoverflow Users</h2>
   <br />
@@ -20,10 +16,10 @@
 
   <br /><br />
 
-
   <h2>Top Stackoverflow Users</h2><br />
 
   <table style="margin: 0 0 0 75px;">
+
     <% @user_list.each do |user| %>
       <tr>
         <td style="height: 110px; padding: 0 15px 0 0;">
@@ -31,7 +27,8 @@
         </td>
         <td style="vertical-align: top; padding: 10px 0 0 0;">
           <a href="<%= user.link %>" style="font-size: 18px;"><%= user.display_name %></a><br />
-          <strong>Reputation:</strong> <%= user.reputation %><br />
+          <strong>Reputation:</strong> <%= user.reputation %>
+          <br />
           Languages:
           <% user.languages.each_pair do |k, v| %>
             <%= k %>: <%= '%.1f' % (100.0 * v / user.total_bytes) %>%
@@ -39,8 +36,12 @@
         </td>
       </tr>
     <% end %>
+
   </table>
+
+
+<% else %>
+
+  No data yet.
+
 <% end %>
-
-
-f
