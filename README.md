@@ -14,6 +14,12 @@ koders
 
 ## Running the UI
 
+Locally:
+
+- rackup
+
+On Heroku:
+
 - Run config_pusher.rb: `ruby config_pusher.rb`
 - Create a heroku app: `heroku apps:create myapp`
 - Push code: `git push heroku master`

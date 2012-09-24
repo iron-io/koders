@@ -18,6 +18,9 @@ rescue => ex
   @config = params
 end
 
+name = @config[:name] || @config[:name]
+puts "name: #{name}"
+
 @stackoverflow_id = @config[:user_id]
 
 @ic = IronCache::Client.new(@config[:iron])
@@ -26,7 +29,8 @@ end
 headers = {'Authorization' => "token #{@config[:github][:token]}"}
 @rest = Rest::Client.new
 base_url = "https://api.github.com"
-q = CGI.escape("\"" + @config[:name] + "\"")
+
+q = CGI.escape("\"" + name + "\"")
 r = @rest.get("#{base_url}/legacy/user/search/#{q}")
 p r
 p r.body
@@ -38,7 +42,7 @@ best_user_match = nil
 body["users"].each do |user|
   puts "#{user["username"]} - #{user["name"]} has #{user["followers"]} followers and #{user["repos"]} public repos."
   best_user_match = user if best_user_match.nil?
-  if user["name"] == @config[:name]
+  if user["name"] == name
     best_user_match = user
     break
   end
@@ -66,7 +70,7 @@ if best_user_match
     p r.body
     languages = JSON.parse(r.body)
     p languages
-    languages.each_pair do |lang,bytes|
+    languages.each_pair do |lang, bytes|
       language_counts[lang] ? language_counts[lang] += bytes : language_counts[lang] = bytes
     end
   end
@@ -75,6 +79,19 @@ end
 
 puts "FINAL COUNTS:"
 p language_counts
+
+# increment global stats
+language_counts.each_pair do |lang, bytes|
+  begin
+    @cache.increment(lang, bytes)
+  rescue => ex
+    if ex.code == 404
+      @cache.put(lang, bytes)
+    else
+      raise ex
+    end
+  end
+end
 
 user_in_cache = @cache.get(@stackoverflow_id.to_s)
 p user_in_cache

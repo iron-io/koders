@@ -19,9 +19,13 @@ set :cache, ironcache.cache("koders")
 
 get '/' do
 
+  @all_langs = {}
+  @total_bytes = 0
+  @total_users = 0
   begin
     user_list_item = settings.cache.get("user_list")
     @user_id_list = JSON.parse(user_list_item.value)
+    @total_users = @user_id_list.length
     @user_list = []
     limit = 10
     @user_id_list.each_with_index do |user_id, i|
@@ -31,6 +35,7 @@ get '/' do
       # get total language size
       total_bytes = 0
       user['languages'].each_pair do |k,v|
+        @all_langs[k] = 0
         total_bytes += v
       end
       user['total_bytes'] = total_bytes
@@ -40,8 +45,15 @@ get '/' do
       end
     end
 
+    @all_langs.each_pair do |lang,v|
+      lang_bytes = settings.cache.get(lang).value
+      puts "lang_bytes: #{lang_bytes}"
+      @all_langs[lang] = lang_bytes
+      @total_bytes += lang_bytes
+    end
+
   rescue => ex
-    puts "FUCKING EXCEPTION!!"
+    puts "EXCEPTION!! Why doesn't sinatra show it??"
     p ex
     p ex.backtrace
   end

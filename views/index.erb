@@ -1,5 +1,12 @@
 <h1>Welcome</h1>
 
+  <h2>Language Breakdown for Top <%= @total_users %> Stackoverflow Users</h2>
+  <% @all_langs.each_pair do |lang,v| %>
+    <div style="font-size: 40px; min-height: 42px; padding-top: 5px;"><%= lang %>: <%= '%.1f' % (100.0 * v / @total_bytes) %>%</div>
+  <% end %>
+
+<h2>Top Stackoverflow Users</h2>
+
 <% if @user_list %>
     <% @user_list.each do |user| %>
         <div>

@@ -21,8 +21,8 @@ worker = IronWorkerNG::Client.new(@config[:iron])
 koders = cache.cache("koders")
 user_ids = []
 
-pages = 1
-pagesize = 1
+pages = 5
+pagesize = 100
 
 pages.downto(1) do |p|
   url = "https://api.stackexchange.com/2.1/users?pagesize=#{pagesize}&order=desc&sort=reputation&site=stackoverflow&page=#{p}"
