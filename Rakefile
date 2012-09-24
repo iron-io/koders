@@ -1,5 +1,6 @@
 require 'uber_config'
 require 'iron_worker_ng'
+require 'iron_cache'
 
 @config = UberConfig.load
 p @config
@@ -35,4 +36,25 @@ end
 task :run do
   client = IronWorkerNG::Client.new(@config['iron'])
   client.tasks.create("koder_master", @config)
+end
+
+task :cleanup do
+  ic = IronCache::Client.new(@config['iron'])
+  cache = ic.cache("koders")
+  cache.delete("user_list") rescue puts "user_list not found, continuing"
+  # todo: we don't dynamically create this list anywhere, but we should so this isn't hardcoded
+  langs = %w(Ruby
+      Clojure
+      JavaScript
+      Shell
+      Objective-C
+      Python
+      C
+      C++
+      Perl
+      Io
+      PHP
+      C#)
+  langs.each { |l| cache.delete(l) rescue puts "#{l} not found, continuing" }
+
 end
