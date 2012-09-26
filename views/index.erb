@@ -1,47 +1,47 @@
-<h1>Welcome to Koders</h1><br />
+<h1>Welcome to Koders</h1><br/>
 
-<% if @user_list %>
+<h2>Language Breakdown for Top <%= @total_users %> Stackoverflow Users</h2>
+<br/>
 
-  <h2>Language Breakdown for Top <%= @total_users %> Stackoverflow Users</h2>
-  <br />
-
-  <% @all_langs.each_pair do |lang, v| %>
+<% @all_langs.each_pair do |lang, v| %>
     <table style="margin: 0 0 0 75px;">
       <tr style="font-size: 30px; height: 40px;">
         <td style="width: 250px;"><%= lang %></td>
         <td><%= '%.1f' % (100.0 * v / @total_bytes) %>%</td>
       </tr>
     </table>
-  <% end %>
+<% end %>
 
-  <br /><br />
+<br/><br/>
 
-  <h2>Top Stackoverflow Users</h2><br />
+<h2>Top Stackoverflow Users</h2><br/>
 
-  <table style="margin: 0 0 0 75px;">
+<% if @user_list %>
 
-    <% @user_list.each do |user| %>
-      <tr>
-        <td style="height: 110px; padding: 0 15px 0 0;">
-          <a href="<%= user.link %>"><img src="<%= user.profile_image %>" /></a>
-        </td>
-        <td style="vertical-align: top; padding: 10px 0 0 0;">
-          <a href="<%= user.link %>" style="font-size: 18px;"><%= user.display_name %></a><br />
-          <strong>Reputation:</strong> <%= user.reputation %>
-          <br />
-          Languages:
-          <% user.languages.each_pair do |k, v| %>
-            <%= k %>: <%= '%.1f' % (100.0 * v / user.total_bytes) %>%
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
+    <table style="margin: 0 0 0 75px;">
 
-  </table>
+      <% @user_list.each do |user| %>
+          <tr>
+            <td style="height: 110px; padding: 0 15px 0 0;">
+              <a href="<%= user.link %>"><img src="<%= user.profile_image %>"/></a>
+            </td>
+            <td style="vertical-align: top; padding: 10px 0 0 0;">
+              <a href="<%= user.link %>" style="font-size: 18px;"><%= user.display_name %></a><br/>
+              <strong>Reputation:</strong> <%= user.reputation %>
+              <br/>
+              Languages:
+              <% user.languages.each_pair do |k, v| %>
+                  <%= k %>: <%= '%.1f' % (100.0 * v / user.total_bytes) %>%
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+
+    </table>
 
 
 <% else %>
 
-  No data yet.
+    No data yet.
 
 <% end %>
