@@ -28,7 +28,8 @@ get '/' do
     @user_id_list = JSON.parse(user_list_item.value)
     @total_users = @user_id_list.length
     @user_list = []
-    limit = 10
+    limit = 20
+
     @user_id_list.each_with_index do |user_id, i|
       item = settings.cache.get(user_id.to_s)
       user = JSON.parse(item.value)
@@ -41,9 +42,8 @@ get '/' do
       end
       user['total_bytes'] = total_bytes
       @user_list << OpenStruct.new(user)
-      if i >= 10
-        break
-      end
+
+      break if i >= limit
     end
 
     @all_langs.each_pair do |lang, v|
